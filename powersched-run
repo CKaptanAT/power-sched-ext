@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Launch PowerSched from the source tree.
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Prefer system Python: GTK/PyGObject come from distro packages, and conda
+# envs (which lack them) would otherwise shadow it.
+PY=/usr/bin/python3
+[ -x "$PY" ] || PY=python3
+exec env PYTHONPATH="$DIR" "$PY" -m powersched "$@"
