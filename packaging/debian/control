@@ -1,0 +1,31 @@
+Source: powersched
+Section: admin
+Priority: optional
+Maintainer: CKaptanAT <linux.planet.ocean@gmail.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.6.2
+Homepage: https://github.com/CKaptanAT/power-sched-ext
+Rules-Requires-Root: no
+
+Package: powersched
+Architecture: all
+Depends: ${misc:Depends},
+         python3 (>= 3.10),
+         python3-gi,
+         gir1.2-gtk-4.0,
+         gir1.2-adw-1,
+         polkitd | policykit-1
+Recommends: pkexec
+Description: CPU frequency and sched_ext scheduler control center
+ PowerSched is a GTK4/libadwaita application that combines what cpupower-gui
+ and scx-manager do in a single window.
+ .
+ The CPU Power page exposes the scaling governor, energy/performance
+ preference (EPP), minimum and maximum frequency limits, turbo boost, and a
+ live per-core frequency monitor. The Scheduler page detects sched_ext kernel
+ support, lists installed scx_* schedulers, shows the active one, and
+ starts/stops them with profile presets (Gaming, Low Latency, Power Save,
+ Server).
+ .
+ Privileged changes go through a small, input-validating root helper invoked
+ via pkexec (polkit).

@@ -1,0 +1,16 @@
+#!/usr/bin/make -f
+# Build PowerSched .deb using the project Makefile.
+
+export DH_VERBOSE = 1
+
+%:
+	dh $@
+
+# No compilation step; everything happens in `make install`.
+override_dh_auto_build:
+
+override_dh_auto_install:
+	$(MAKE) install PREFIX=/usr DESTDIR=$(CURDIR)/debian/powersched
+
+# The project ships its own GPL-3 LICENSE; skip dh_installchangelogs noise.
+override_dh_auto_test:

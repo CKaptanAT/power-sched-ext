@@ -5,19 +5,19 @@
 #   sudo ./install.sh --with-scx   # also install scx schedulers if missing
 #   sudo ./install.sh --no-deps    # skip package installation
 #
-# Installs to:
-#   /opt/powersched                          (application)
-#   /usr/local/bin/powersched                (launcher)
-#   /usr/share/applications/...desktop      (menu entry, all users)
-#   /usr/share/polkit-1/actions/...policy   (polkit prompt)
+# Installs (via the Makefile, PREFIX=/usr) to:
+#   /usr/lib/powersched                      (application)
+#   /usr/bin/powersched                      (launcher)
+#   /usr/share/applications/...desktop       (menu entry, all users)
+#   /usr/share/polkit-1/actions/...policy    (polkit prompt)
+#   /usr/share/metainfo/...metainfo.xml      (AppStream metadata)
+#
+# Prefer a native package where available (see packaging/). This script is the
+# portable fallback and also installs runtime dependencies for you.
 
 set -euo pipefail
 
 SRC_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-APP_DIR=/opt/powersched
-BIN=/usr/local/bin/powersched
-DESKTOP=/usr/share/applications/io.github.powersched.PowerSched.desktop
-POLICY=/usr/share/polkit-1/actions/io.github.powersched.policy
 
 WITH_SCX=0
 NO_DEPS=0
@@ -77,29 +77,11 @@ fi
 
 # ---------------------------------------------------------------- 2. app files
 
-msg "Installing application to $APP_DIR ..."
-rm -rf "$APP_DIR"
-mkdir -p "$APP_DIR"
-cp -r "$SRC_DIR/powersched" "$APP_DIR/"
-cp "$SRC_DIR/README.md" "$APP_DIR/" 2>/dev/null || true
-chmod -R go-w "$APP_DIR"   # root-owned, not user-writable (helper runs as root)
+msg "Installing application (make install, PREFIX=/usr) ..."
+make -C "$SRC_DIR" install PREFIX=/usr
 
-msg "Installing launcher $BIN ..."
-cat > "$BIN" <<'EOF'
-#!/usr/bin/env bash
-exec env PYTHONPATH=/opt/powersched /usr/bin/python3 -m powersched "$@"
-EOF
-chmod 755 "$BIN"
-
-msg "Installing menu entry ..."
-sed 's|^Exec=.*|Exec=/usr/local/bin/powersched|' \
-    "$SRC_DIR/data/io.github.powersched.PowerSched.desktop" > "$DESKTOP"
-chmod 644 "$DESKTOP"
 command -v update-desktop-database >/dev/null \
     && update-desktop-database /usr/share/applications || true
-
-msg "Installing polkit policy ..."
-install -m 644 "$SRC_DIR/data/io.github.powersched.policy" "$POLICY" || true
 
 # ---------------------------------------------------------------- 3. scx schedulers
 

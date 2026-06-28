@@ -1,0 +1,19 @@
+pkgbase = powersched-git
+	pkgdesc = GTK4/libadwaita control center for CPU frequency scaling and sched_ext (scx) schedulers
+	pkgver = 0.1.0
+	pkgrel = 1
+	url = https://github.com/CKaptanAT/power-sched-ext
+	arch = any
+	license = GPL-3.0-or-later
+	makedepends = git
+	depends = python-gobject
+	depends = gtk4
+	depends = libadwaita
+	depends = polkit
+	optdepends = scx-scheds: sched_ext scheduler profiles (Scheduler page)
+	provides = powersched
+	conflicts = powersched
+	source = git+https://github.com/CKaptanAT/power-sched-ext.git
+	sha256sums = SKIP
+
+pkgname = powersched-git

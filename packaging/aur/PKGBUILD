@@ -1,0 +1,32 @@
+# Maintainer: CKaptanAT <linux.planet.ocean@gmail.com>
+pkgname=powersched-git
+_pkgname=powersched
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="GTK4/libadwaita control center for CPU frequency scaling and sched_ext (scx) schedulers"
+arch=('any')
+url="https://github.com/CKaptanAT/power-sched-ext"
+license=('GPL-3.0-or-later')
+depends=('python-gobject' 'gtk4' 'libadwaita' 'polkit')
+optdepends=('scx-scheds: sched_ext scheduler profiles (Scheduler page)')
+makedepends=('git')
+provides=('powersched')
+conflicts=('powersched')
+source=("git+https://github.com/CKaptanAT/power-sched-ext.git")
+sha256sums=('SKIP')
+
+pkgver() {
+    cd "$srcdir/power-sched-ext"
+    # Use the version from __init__.py plus the git revision count/hash.
+    local base
+    base=$(grep -oP '__version__\s*=\s*"\K[^"]+' powersched/__init__.py 2>/dev/null \
+           || echo 0.1.0)
+    printf "%s.r%s.g%s" "$base" \
+        "$(git rev-list --count HEAD)" \
+        "$(git rev-parse --short HEAD)"
+}
+
+package() {
+    cd "$srcdir/power-sched-ext"
+    make install PREFIX=/usr DESTDIR="$pkgdir"
+}

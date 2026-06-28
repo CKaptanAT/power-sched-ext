@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.powersched.PowerSched</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>PowerSched</name>
+  <summary>CPU frequency scaling and sched_ext scheduler control center</summary>
+
+  <description>
+    <p>
+      PowerSched is a GTK4/libadwaita application that combines what
+      cpupower-gui and scx-manager do in a single window.
+    </p>
+    <p>CPU Power page:</p>
+    <ul>
+      <li>Scaling governor selection</li>
+      <li>Energy/Performance Preference (EPP)</li>
+      <li>Minimum and maximum frequency limits</li>
+      <li>Turbo boost toggle</li>
+      <li>Live per-core frequency monitor</li>
+    </ul>
+    <p>Scheduler page:</p>
+    <ul>
+      <li>Detects sched_ext kernel support</li>
+      <li>Lists installed scx_* schedulers with descriptions</li>
+      <li>Shows the active scheduler and starts/stops them</li>
+      <li>Profile presets: Gaming, Low Latency, Power Save, Server</li>
+    </ul>
+    <p>
+      Privileged changes go through a small, input-validating root helper
+      invoked via pkexec (polkit). On systems with scx.service the scheduler
+      choice is persisted through systemd.
+    </p>
+  </description>
+
+  <launchable type="desktop-id">io.github.powersched.PowerSched.desktop</launchable>
+
+  <categories>
+    <category>System</category>
+    <category>Settings</category>
+  </categories>
+
+  <keywords>
+    <keyword>cpu</keyword>
+    <keyword>frequency</keyword>
+    <keyword>governor</keyword>
+    <keyword>scheduler</keyword>
+    <keyword>scx</keyword>
+    <keyword>sched_ext</keyword>
+    <keyword>power</keyword>
+  </keywords>
+
+  <url type="homepage">https://github.com/CKaptanAT/power-sched-ext</url>
+  <url type="bugtracker">https://github.com/CKaptanAT/power-sched-ext/issues</url>
+
+  <provides>
+    <binary>powersched</binary>
+  </provides>
+
+  <content_rating type="oars-1.1"/>
+
+  <releases>
+    <release version="0.1.0" date="2026-06-28">
+      <description>
+        <p>First packaged release with Arch, Debian/Ubuntu and Fedora packaging.</p>
+      </description>
+    </release>
+  </releases>
+</component>

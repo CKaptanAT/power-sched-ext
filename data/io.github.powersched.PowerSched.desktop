@@ -6,5 +6,5 @@ Comment=CPU frequency scaling and sched_ext scheduler control center
 Exec=powersched-run
 Icon=power-profile-performance-symbolic
 Terminal=false
-Categories=System;Settings;HardwareSettings;
+Categories=Settings;HardwareSettings;
 Keywords=cpu;frequency;governor;scheduler;scx;sched_ext;power;
