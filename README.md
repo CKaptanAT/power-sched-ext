@@ -34,28 +34,30 @@ entry, and the polkit policy).
 
 | Distro | Recommended method |
 | --- | --- |
-| **Arch / CachyOS / Manjaro** | AUR package `powersched-git` |
+| **Arch / CachyOS / Manjaro** | build the bundled PKGBUILD with `makepkg` |
 | **Debian / Ubuntu** | build & install a `.deb` |
 | **Fedora** | build & install an `.rpm` (or COPR) |
 | **Any distro** | `sudo ./install.sh` (portable fallback) |
 
 ### Arch / CachyOS / Manjaro
 
-Using an AUR helper (after the package is published to the AUR):
+Build and install from the bundled PKGBUILD (clone the repo first):
 
 ```bash
-yay -S powersched-git      # or: paru -S powersched-git
-```
-
-Or build the bundled PKGBUILD directly from a clone:
-
-```bash
-cd packaging/aur
+git clone https://github.com/CKaptanAT/power-sched-ext.git
+cd power-sched-ext/packaging/aur
 makepkg -si
 ```
 
-Scheduler support: `sudo pacman -S scx-scheds` (the `powersched-git` package
-recommends it as an optional dependency).
+`makepkg` pulls in the build/runtime dependencies and installs the package with
+pacman, so removal is clean (`sudo pacman -R powersched-git`).
+
+Scheduler support: `sudo pacman -S scx-scheds` (the package recommends it as an
+optional dependency).
+
+> An AUR package (`powersched-git`) is planned so this becomes
+> `yay -S powersched-git`. The PKGBUILD is already AUR-ready — see
+> [Building packages](#building-packages).
 
 ### Debian / Ubuntu
 
@@ -150,9 +152,12 @@ is identical no matter how you install.
 | `packaging/build-deb.sh` | one-shot `.deb` build |
 | `packaging/build-rpm.sh` | one-shot `.rpm` build |
 
-To publish to the AUR, push `packaging/aur/PKGBUILD` and `.SRCINFO` to an AUR
-git repo named `powersched-git`. After tagging an upstream release you can
-switch from the `-git` build to a versioned tarball source.
+To publish to the AUR (once you have an AUR account — registration is sometimes
+temporarily closed), push `packaging/aur/PKGBUILD` and a regenerated `.SRCINFO`
+(`makepkg --printsrcinfo > .SRCINFO`) to the AUR git repo `powersched-git` over
+SSH. Until then, Arch users build the PKGBUILD locally as shown above. After
+tagging an upstream release you can switch from the `-git` build to a versioned
+tarball source.
 
 ---
 
